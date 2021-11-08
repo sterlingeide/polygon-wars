@@ -1,1 +1,1 @@
-![img/wireFrame.png]
+![img/wireFrame.png](img/wireFrame.png)
