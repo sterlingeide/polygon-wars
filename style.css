@@ -65,7 +65,16 @@ html,body {
   
   #btm-left {
     grid-area: btm-left;
+    /* border:5px solid rgb(179, 190, 21); */
     /* background-color: #222; */
+  }
+
+  #btm-middle-left {
+    grid-area: btm-middle-left;
+  }
+
+  #btm-middle {
+    grid-area: btm-middle;
   }
   
   #btm-right {

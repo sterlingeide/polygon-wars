@@ -6,13 +6,16 @@ let roundDisplay = document.querySelector('#rounds');
 let towerOne = document.querySelector('#btm-left');
 let towerTwo = document.querySelector('#btm-middle-left');
 let towerThree = document.querySelector('#btm-middle');
-let goldCount = document.querySelector('#btm-middle-right');
+let goldCount = document.querySelector('#gold');
 let lifeCount = document.querySelector('#lives');
 let gameRunning = false;
 let xStart = 175;
 let yStart = 420;
 let lives = 20;
 let nEnemies = 5;
+let towerSelect = 0;
+let goldAmount = 5;
+
 
 game.setAttribute('height', getComputedStyle(game)["height"]);
 game.setAttribute('width', getComputedStyle(game)["width"]);
@@ -34,27 +37,86 @@ class enemy {
     }
 }
 
-let enemies = [];
+class tower {
+    constructor(x, y, width, height){
+        this.x =x;
+        this.y =y;
+        this.width = width;
+        this.height = height;
+        this.color = 'black';
+    
+        this.render = function() {
+            ctx.fillstyle = this.color;
+            ctx.fillRect(this.x, this.y, this.width, this.height);
+        }
+    }
+}
 
+let enemies = [];
+let towers = [];
 
 window.addEventListener("DOMContentLoaded", function(e) {
     const runGame = setInterval(gameLoop, 40);
 
 });
 
-newGame.addEventListener('click', function startGame(){
+newGame.addEventListener('click', function(e){
     console.log('Game Started');
     enemyReset();
     gameRunning = true; 
+    towers.length = 0;
 });
 
-pause.addEventListener('click', function pauseGame(){
+pause.addEventListener('click', function(e){
     console.log('Game Pause');
     if (gameRunning === false){
         gameRunning = true;
     }else{
         gameRunning = false;
     }  
+});
+
+game.addEventListener('click', function(e){
+    console.log('clicked map');
+    var x = event.clientX - 290;
+    var y = event.clientY - 120;     
+    towers.push(new tower(x, y, 50, 50));
+});
+
+towerOne.addEventListener('click', function(e) {
+    if(towerSelect === 1){
+        towerOne.style.border = "";
+        towerSelect = 0;
+    }else{
+        towerOne.style.border = "5px solid rgb(179, 190, 21)";
+        towerSelect = 1;
+    }
+    towerTwo.style.border = "";
+    towerThree.style.border ="";
+});
+
+towerTwo.addEventListener('click', function(e) {
+    if(towerSelect === 2){
+        towerTwo.style.border = "";
+        towerSelect = 0;
+    }else{
+        towerTwo.style.border = "5px solid rgb(179, 190, 21)";
+        towerSelect = 2;
+    }
+    towerOne.style.border = "";
+    towerThree.style.border ="";
+});
+
+towerThree.addEventListener('click', function(e) {
+    if(towerSelect === 3){
+        towerThree.style.border ="";
+        towerSelect = 0;
+    }else{
+        towerThree.style.border = "5px solid rgb(179, 190, 21)";
+        towerSelect = 3;
+    }
+    towerOne.style.border = "";
+    towerTwo.style.border = "";
 });
 
 
@@ -87,11 +149,17 @@ function mapStartUp(){
     ctx.fill(triangle2);
 }
 
+function towerBuild(){
+    for(let i =0; i < towers.length ; i++){
+        towers[i].render();
+    }
+}
+
 function gameLoop(){
     //console.log('loop');
     ctx.clearRect(0, 0, game.width, game.height);
     mapStartUp();
-    
+    towerBuild();
     if(gameRunning === true){
         waveOne();
     }
@@ -105,6 +173,7 @@ function gameLoop(){
         enemies[i].render();
     }
     lifeCount.textContent = "Lives: " + lives;
+    goldCount.textContent = "Gold: " + goldAmount;
     
 }
 
@@ -161,9 +230,6 @@ function enemyReset(){
         enemies[i].y = yStart + (i * 50);
         enemies[i].alive = true;
     }
-}
-
-function pauseGame(){
 }
 
 function createEnemies(n){
