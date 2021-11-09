@@ -6,9 +6,12 @@ let roundDisplay = document.querySelector('#rounds');
 let towerOne = document.querySelector('#btm-left');
 let towerTwo = document.querySelector('#btm-middle-left');
 let towerThree = document.querySelector('#btm-middle');
-let towerFour = document.querySelector('#btm-middle-right');
-let towerFive = document.querySelector('#btm-right');
+let goldCount = document.querySelector('#btm-middle-right');
+let lifeCount = document.querySelector('#btm-right');
 let gameRunning = false;
+let xStart = 175;
+let yStart = 420;
+let lives = 20;
 
 game.setAttribute('height', getComputedStyle(game)["height"]);
 game.setAttribute('width', getComputedStyle(game)["width"]);
@@ -40,8 +43,17 @@ window.addEventListener("DOMContentLoaded", function(e) {
 
 newGame.addEventListener('click', function startGame(){
     console.log('Game Started');
-    gameRunning = true;
-    
+    enemyReset();
+    gameRunning = true; 
+});
+
+pause.addEventListener('click', function pauseGame(){
+    console.log('Game Pause');
+    if (gameRunning === false){
+        gameRunning = true;
+    }else{
+        gameRunning = false;
+    }  
 });
 
 
@@ -78,24 +90,27 @@ function gameLoop(){
     //console.log('loop');
     ctx.clearRect(0, 0, game.width, game.height);
     mapStartUp();
+    
     if(gameRunning === true){
         waveOne();
     }
     if(endWaveCheck() === true){
         gameRunning = false;
+        enemyReset();
+    }
+    for(let i =0; i < enemies.length; i++){
+        ctx.beginPath();
+        enemies[i].render();
     }
     
 }
 
 function waveOne(){
-
+    roundDisplay.textContent = "Wave: 1"
     for (let i = 0; i < 5; i++){
          let coords  = moveOnPath(enemies[i].x, enemies[i].y);
         enemies[i].x = coords[0];
         enemies[i].y = coords[1];
-    
-        ctx.beginPath();
-        enemies[i].render();
     }
 
 
@@ -125,4 +140,14 @@ function endWaveCheck(){
         }
     }
     return true;
+}
+
+function enemyReset(){
+    for(let i = 0; i < enemies.length; i++){
+        enemies[i].x = xStart;
+        enemies[i].y = yStart + (i * 50);
+    }
+}
+
+function pauseGame(){
 }
