@@ -81,6 +81,10 @@ function gameLoop(){
     if(gameRunning === true){
         waveOne();
     }
+    if(endWaveCheck() === true){
+        gameRunning = false;
+    }
+    
 }
 
 function waveOne(){
@@ -93,6 +97,7 @@ function waveOne(){
         ctx.beginPath();
         enemies[i].render();
     }
+
 
 }
 
@@ -111,4 +116,13 @@ function moveOnPath(x,y){
         x += 2;
     }
     return [x,y];
+}
+
+function endWaveCheck(){
+    for(let i = 0; i < enemies.length; i++){
+        if(enemies[i].x < 800){
+            return false;
+        }
+    }
+    return true;
 }
