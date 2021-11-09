@@ -9,8 +9,6 @@ let towerThree = document.querySelector('#btm-middle');
 let towerFour = document.querySelector('#btm-middle-right');
 let towerFive = document.querySelector('#btm-right');
 let gameRunning = false;
-let enemy1y = 380;
-let enemy1x = 175;
 
 game.setAttribute('height', getComputedStyle(game)["height"]);
 game.setAttribute('width', getComputedStyle(game)["width"]);
@@ -31,6 +29,9 @@ class enemy {
         }
     }
 }
+
+let enemies = [new enemy(175, 420), new enemy(175, 470), new enemy(175, 520), new enemy(175, 570), new enemy(175, 620)];
+
 
 window.addEventListener("DOMContentLoaded", function(e) {
     const runGame = setInterval(gameLoop, 40);
@@ -83,22 +84,31 @@ function gameLoop(){
 }
 
 function waveOne(){
-    enemy1 = new enemy(enemy1x, enemy1y);
 
-    if(enemy1.x >= 0 && enemy1.x <= 800 && enemy1.y >= 236 && enemy1.y <= 400){
-        enemy1y -= 2;
-    }else if(enemy1.x >= 0 && enemy1.x <= 424 && enemy1.y >= 230 && enemy1.y <= 400){
-        enemy1x += 2;
-    }else if(enemy1.x >= 0 && enemy1.x <= 430 && enemy1.y >= 96 && enemy1.y <= 400){
-        enemy1y -= 2;
-    }else if(enemy1.x >= 0 && enemy1.x <= 674 && enemy1.y >= 92 && enemy1.y <= 400){
-        enemy1x += 2;
-    }else if(enemy1.x >= 0 && enemy1.x <= 680 && enemy1.y >= 92 && enemy1.y <= 164){
-        enemy1y += 2;
-    }else if(enemy1.x >= 0 && enemy1.x <= 799 && enemy1.y >= 92 && enemy1.y <= 170){
-        enemy1x += 2;
+    for (let i = 0; i < 5; i++){
+         let coords  = moveOnPath(enemies[i].x, enemies[i].y);
+        enemies[i].x = coords[0];
+        enemies[i].y = coords[1];
+    
+        ctx.beginPath();
+        enemies[i].render();
     }
-    ctx.beginPath();
-    enemy1.render();
 
+}
+
+function moveOnPath(x,y){
+    if(x >= 0 && x <= 800 && y >= 236 && y <= 1000){
+        y -= 2;
+    }else if(x >= 0 && x <= 424 && y >= 230 && y <= 400){
+        x += 2;
+    }else if(x >= 0 && x <= 430 && y >= 96 && y <= 400){
+        y -= 2;
+    }else if(x >= 0 && x <= 674 && y >= 92 && y <= 400){
+        x += 2;
+    }else if(x >= 0 && x <= 680 && y >= 92 && y <= 164){
+        y += 2;
+    }else if(x >= 0 && x <= 830 && y >= 92 && y <= 170){
+        x += 2;
+    }
+    return [x,y];
 }
