@@ -7,11 +7,12 @@ let towerOne = document.querySelector('#btm-left');
 let towerTwo = document.querySelector('#btm-middle-left');
 let towerThree = document.querySelector('#btm-middle');
 let goldCount = document.querySelector('#btm-middle-right');
-let lifeCount = document.querySelector('#btm-right');
+let lifeCount = document.querySelector('#lives');
 let gameRunning = false;
 let xStart = 175;
 let yStart = 420;
 let lives = 20;
+let nEnemies = 5;
 
 game.setAttribute('height', getComputedStyle(game)["height"]);
 game.setAttribute('width', getComputedStyle(game)["width"]);
@@ -23,7 +24,7 @@ class enemy {
         this.y = y;
         this.color = 'red';
         this.radius = 10;
-        this.alive = false;
+        this.alive = true;
 
         this.render = function() {
             ctx.fillStyle = this.color;
@@ -33,7 +34,7 @@ class enemy {
     }
 }
 
-let enemies = [new enemy(175, 420), new enemy(175, 470), new enemy(175, 520), new enemy(175, 570), new enemy(175, 620)];
+let enemies = [];
 
 
 window.addEventListener("DOMContentLoaded", function(e) {
@@ -96,21 +97,32 @@ function gameLoop(){
     }
     if(endWaveCheck() === true){
         gameRunning = false;
+        createEnemies(nEnemies);
         enemyReset();
     }
     for(let i =0; i < enemies.length; i++){
         ctx.beginPath();
         enemies[i].render();
     }
+    lifeCount.textContent = "Lives: " + lives;
     
 }
 
 function waveOne(){
-    roundDisplay.textContent = "Wave: 1"
+    roundDisplay.textContent = "Wave: 1";
+
     for (let i = 0; i < 5; i++){
          let coords  = moveOnPath(enemies[i].x, enemies[i].y);
         enemies[i].x = coords[0];
         enemies[i].y = coords[1];
+        if(enemies[i].x >= 800 && enemies[i].y >= 140 && enemies[i].y <= 190){
+            if(enemies[i].alive === true){
+                lives -= 1;
+                enemies[i].alive = false;
+            }
+            
+                
+        }
     }
 
 
@@ -134,6 +146,7 @@ function moveOnPath(x,y){
 }
 
 function endWaveCheck(){
+    
     for(let i = 0; i < enemies.length; i++){
         if(enemies[i].x < 800){
             return false;
@@ -146,8 +159,16 @@ function enemyReset(){
     for(let i = 0; i < enemies.length; i++){
         enemies[i].x = xStart;
         enemies[i].y = yStart + (i * 50);
+        enemies[i].alive = true;
     }
 }
 
 function pauseGame(){
+}
+
+function createEnemies(n){
+    enemies.length = 0;
+    for (let i = 0; i < n; i++){
+        enemies.push(new enemy());
+    }
 }
