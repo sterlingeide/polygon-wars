@@ -10,6 +10,7 @@ let towerFour = document.querySelector('#btm-middle-right');
 let towerFive = document.querySelector('#btm-right');
 let gameRunning = false;
 let enemy1y = 380;
+let enemy1x = 175;
 
 game.setAttribute('height', getComputedStyle(game)["height"]);
 game.setAttribute('width', getComputedStyle(game)["width"]);
@@ -19,7 +20,7 @@ class enemy {
     constructor(x ,y){
         this.x = x;
         this.y = y;
-        this.color = 'blue';
+        this.color = 'red';
         this.radius = 10;
         this.alive = false;
 
@@ -32,7 +33,7 @@ class enemy {
 }
 
 window.addEventListener("DOMContentLoaded", function(e) {
-    const runGame = setInterval(gameLoop, 1000);
+    const runGame = setInterval(gameLoop, 40);
 
 });
 
@@ -52,11 +53,11 @@ function mapStartUp(){
     ctx.fillRect(650, 70, 50, 120);
     ctx.fillRect(650, 140, 150, 50);
     ctx.fillStyle ='blue';
-    ctx.moveTo(330,150);
+    ctx.beginPath();
     ctx.arc(330, 150, 50, 0, 2 *Math.PI, false);
     ctx.fill();
     ctx.fillStyle ='blue';
-    ctx.moveTo(600,170);
+    ctx.beginPath();
     ctx.arc(600, 170, 40, 0, 2* Math.PI, false);
     ctx.fill();
     var triangle1=new Path2D();
@@ -70,13 +71,10 @@ function mapStartUp(){
     triangle2.lineTo(540, 210);
     triangle2.lineTo(500, 130);
     ctx.fill(triangle2);
-    //console.log(ctx);
-    //console.log(game.height);
-    //console.log(game.width);
 }
 
 function gameLoop(){
-    console.log('loop');
+    //console.log('loop');
     ctx.clearRect(0, 0, game.width, game.height);
     mapStartUp();
     if(gameRunning === true){
@@ -85,12 +83,22 @@ function gameLoop(){
 }
 
 function waveOne(){
-    ctx.moveTo(175,enemy1y);
-    enemy1 = new enemy(175, enemy1y);
-    
-    if(enemy1.x >= 0 && enemy1.x <= 800 && enemy1.y >= 0 && enemy1.y <= 400){
-        enemy1y -= 1;
+    enemy1 = new enemy(enemy1x, enemy1y);
+
+    if(enemy1.x >= 0 && enemy1.x <= 800 && enemy1.y >= 236 && enemy1.y <= 400){
+        enemy1y -= 2;
+    }else if(enemy1.x >= 0 && enemy1.x <= 424 && enemy1.y >= 230 && enemy1.y <= 400){
+        enemy1x += 2;
+    }else if(enemy1.x >= 0 && enemy1.x <= 430 && enemy1.y >= 96 && enemy1.y <= 400){
+        enemy1y -= 2;
+    }else if(enemy1.x >= 0 && enemy1.x <= 674 && enemy1.y >= 92 && enemy1.y <= 400){
+        enemy1x += 2;
+    }else if(enemy1.x >= 0 && enemy1.x <= 680 && enemy1.y >= 92 && enemy1.y <= 164){
+        enemy1y += 2;
+    }else if(enemy1.x >= 0 && enemy1.x <= 799 && enemy1.y >= 92 && enemy1.y <= 170){
+        enemy1x += 2;
     }
+    ctx.beginPath();
     enemy1.render();
 
 }
