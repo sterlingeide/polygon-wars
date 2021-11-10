@@ -38,22 +38,48 @@ class enemy {
 }
 
 class tower {
-    constructor(x, y, width, height){
-        this.x =x;
-        this.y =y;
-        this.width = width;
-        this.height = height;
-        this.color = 'black';
+    constructor(x, y, color, cooldown){
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.cooldown = cooldown;
     
         this.render = function() {
-            ctx.fillstyle = this.color;
-            ctx.fillRect(this.x, this.y, this.width, this.height);
+            //ctx.fillstyle = this.color;
+            //ctx.fillRect(this.x, this.y, this.width, this.height);
+
+            var hexagon=new Path2D();
+            hexagon.moveTo(this.x-25, this.y);
+            hexagon.lineTo(this.x-12.5, this.y+25);
+            hexagon.lineTo(this.x+12.5, this.y+25);
+            hexagon.lineTo(this.x+25, this.y);
+            hexagon.lineTo(this.x+12.5, this.y-25);
+            hexagon.lineTo(this.x-12.5, this.y-25);
+            ctx.fillStyle = this.color;
+            ctx.fill(hexagon);
         }
+    }
+}
+
+class shot {
+    constructor(x, y, dx, dy){
+        this.x = x;
+        this.y = y;
+        this.dx = dx;
+        this.dy = dy;
+
+        this.render = function() {
+            ctx.fillStyle = 'black';
+            ctx.arc(this.x, this.y, 5, 2 *Math.PI, false);
+            ctx.fill();
+        }
+
     }
 }
 
 let enemies = [];
 let towers = [];
+let projectiles = [];
 
 window.addEventListener("DOMContentLoaded", function(e) {
     const runGame = setInterval(gameLoop, 40);
@@ -65,6 +91,7 @@ newGame.addEventListener('click', function(e){
     enemyReset();
     gameRunning = true; 
     towers.length = 0;
+    goldAmount = 5;
 });
 
 pause.addEventListener('click', function(e){
@@ -79,8 +106,17 @@ pause.addEventListener('click', function(e){
 game.addEventListener('click', function(e){
     console.log('clicked map');
     var x = event.clientX - 290;
-    var y = event.clientY - 120;     
-    towers.push(new tower(x, y, 50, 50));
+    var y = event.clientY - 120;
+    if(towerSelect === 1 && positionCheck(x,y) && goldAmount >= 3){
+        goldAmount -= 3;
+        towers.push(new tower(x, y, 'rgb(71, 48, 14)', 25));
+    }else if(towerSelect === 2 && positionCheck(x,y) && goldAmount >= 5){
+        goldAmount -= 5;
+        towers.push(new tower(x, y, '#00008B', 50));
+    }else if(towerSelect === 3 && positionCheck(x,y) && goldAmount >= 5){
+        goldAmount -= 5;
+        towers.push(new tower(x, y, '#404040', 50));
+    }
 });
 
 towerOne.addEventListener('click', function(e) {
@@ -162,11 +198,19 @@ function gameLoop(){
     towerBuild();
     if(gameRunning === true){
         waveOne();
+        for(let i = 0; i < towers.length; i++){
+            createShot(i);
+        }
+        projectileMovement();
     }
     if(endWaveCheck() === true){
         gameRunning = false;
         createEnemies(nEnemies);
         enemyReset();
+    }
+    for(let i =0; i < projectiles.length; i++){
+        ctx.beginPath();
+        projectiles[i].render();
     }
     for(let i =0; i < enemies.length; i++){
         ctx.beginPath();
@@ -236,5 +280,59 @@ function createEnemies(n){
     enemies.length = 0;
     for (let i = 0; i < n; i++){
         enemies.push(new enemy());
+    }
+}
+
+function positionCheck(x, y){
+    if ( (x < 150 || x > 200 || y < 210) && (x < 150 || x > 450 || y < 210 || y > 260) && (x < 400 || x > 450 || y < 70 || y > 260) && (x < 400 || x > 700 || y < 70 || y > 120) && (x < 650 || x > 700 || y < 70 || y > 190) && (x < 650 || y < 140 || y > 190)){
+        for(let i = 0; i < towers.length; i++){
+            if(x > (towers[i].x - 60) && x < (towers[i].x + 60) && y < (towers[i].y + 60) && y > (towers[i].y - 60)){
+                return false;
+            }
+        }
+        if(towerSelect === 1){
+            if((x > 200 && x < 290 && y < 350 && y > 260) || (x > 450 && x < 540 && y < 210 && y > 120)){
+                return false;
+            }
+            if((x > 280 && x < 400 && y < 210 && y > 100) || (x > 540 && x < 650 && y < 210 && y > 120)){
+                return false;
+            }
+        }else if(towerSelect === 2){
+            if((x > 200 && x < 290 && y < 350 && y > 260) || (x > 450 && x < 540 && y < 210 && y > 120)){
+                return false;
+            }
+        }else{
+            if((x > 280 && x < 400 && y < 210 && y > 100) || (x > 540 && x < 650 && y < 210 && y > 120)){
+                return false;
+            }
+        }
+        return true;
+    }
+    return false;
+}
+
+function createShot(i){
+    if(towers[i].cooldown === 0){
+        let dx = Math.random() * 4;
+        let dy = Math.random() * 4;
+        projectiles.push(new shot(towers[i].x, towers[i].y, dx, dy)) 
+
+        if(towers[i].color === 'rgb(71, 48, 14)'){
+            towers[i].cooldown = 25;
+        }else{
+            towers[i].cooldown = 50;
+        }
+    }else{
+        towers[i].cooldown -= 1;
+    }
+}
+
+function projectileMovement(){
+    for(let i = 0; i < projectiles.length ; i++){
+        if(projectiles[i].x > 800 || projectiles[i].x < 0 || projectiles[i].y > 400 || projectiles[i].y < 0){
+            projectiles.splice(i, 1);
+        }
+        projectiles[i].x += projectiles[i].dx;
+        projectiles[i].y += projectiles[i].dy;
     }
 }

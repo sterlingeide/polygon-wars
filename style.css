@@ -76,6 +76,8 @@ html,body {
   #btm-middle {
     grid-area: btm-middle;
   }
+
+  
   
   #btm-right {
     grid-area: btm-right;
