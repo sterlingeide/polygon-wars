@@ -16,6 +16,7 @@ let nEnemies = 5;
 let towerSelect = 0;
 let goldAmount = 5;
 let waveCount = 0;
+let enemySpeed = 2;
 
 
 game.setAttribute('height', getComputedStyle(game)["height"]);
@@ -106,14 +107,7 @@ window.addEventListener("DOMContentLoaded", function(e) {
 });
 
 newGame.addEventListener('click', function(e){
-    console.log('Game Started');
-    enemyReset();
-    gameRunning = false; 
-    towers.length = 0;
-    projectiles.length = 0;
-    goldAmount = 5;
-    lives = 20;
-    waveCount = 0;
+    fullReset();
 
 });
 
@@ -123,6 +117,7 @@ waveStart.addEventListener('click', function(e){
         gameRunning = true;
         waveCount += 1;
         nEnemies = (waveCount + 1) * 5;
+        enemySpeed += 1;
     }
 
 });
@@ -131,11 +126,11 @@ game.addEventListener('click', function(e){
     console.log('clicked map');
     var x = event.clientX - 290;
     var y = event.clientY - 120;
-    if(towerSelect === 1 && positionCheck(x,y) && goldAmount >= 5){
-        goldAmount -= 5;
+    if(towerSelect === 1 && positionCheck(x,y) && goldAmount >= 4){
+        goldAmount -= 4;
         towers.push(new tower(x, y, 'rgb(71, 48, 14)', 25, 1));
-    }else if(towerSelect === 2 && positionCheck(x,y) && goldAmount >= 10){
-        goldAmount -= 10;
+    }else if(towerSelect === 2 && positionCheck(x,y) && goldAmount >= 7){
+        goldAmount -= 7;
         towers.push(new tower(x, y, '#00008B', 50, 2));
     }else if(towerSelect === 3 && positionCheck(x,y) && goldAmount >= 10){
         goldAmount -= 10;
@@ -243,9 +238,9 @@ function gameLoop(){
     lifeCount.textContent = "Lives: " + lives;
     goldCount.textContent = "Gold: " + goldAmount;
     roundDisplay.textContent = "Wave: " + waveCount;
-    // if(lives <= 0){
-
-    // }   
+    if(lives <= 0){
+        fullReset();
+    }   
 }
 
 function wave(waveN){
@@ -255,7 +250,7 @@ function wave(waveN){
             let coords  = moveOnPath(enemies[i].x, enemies[i].y);
             enemies[i].x = coords[0];
             enemies[i].y = coords[1];
-        }else if(enemies[i].x > 800){
+        }else if(enemies[i].y < 370){
             let coords  = moveOnPath(enemies[i].x, enemies[i].y);
             enemies[i].x = coords[0];
             enemies[i].y = coords[1];
@@ -312,18 +307,18 @@ function wave(waveN){
 }
 
 function moveOnPath(x,y){
-    if(x >= 0 && x <= 800 && y >= 236 && y <= 1000){
-        y -= 3;
-    }else if(x >= 0 && x <= 424 && y >= 230 && y <= 400){
-        x += 3;
-    }else if(x >= 0 && x <= 430 && y >= 96 && y <= 400){
-        y -= 3;
-    }else if(x >= 0 && x <= 674 && y >= 92 && y <= 400){
-        x += 3;
-    }else if(x >= 0 && x <= 680 && y >= 92 && y <= 164){
-        y += 3;
-    }else if(x >= 0 && x <= 830 && y >= 92 && y <= 170){
-        x += 3;
+    if(x >= 0 && x <= 800 && y >= 236 && y <= 500){
+        y -= enemySpeed;
+    }else if(x >= 0 && x <= 424 && y >= 220 && y <= 400){
+        x += enemySpeed;
+    }else if(x >= 0 && x <= 440 && y >= 96 && y <= 400){
+        y -= enemySpeed;
+    }else if(x >= 0 && x <= 674 && y >= 80 && y <= 400){
+        x += enemySpeed;
+    }else if(x >= 0 && x <= 690 && y >= 80 && y <= 164){
+        y += enemySpeed;
+    }else if(x >= 0 && x <= 830 && y >= 80 && y <= 170){
+        x += enemySpeed;
     }
     return [x,y];
 }
@@ -440,4 +435,15 @@ function projectileMovement(){
 
         }
     }
+}
+
+function fullReset(){
+    console.log('Game Started');
+    enemyReset();
+    gameRunning = false; 
+    towers.length = 0;
+    projectiles.length = 0;
+    goldAmount = 5;
+    lives = 20;
+    waveCount = 0;
 }
