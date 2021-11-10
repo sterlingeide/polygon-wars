@@ -207,6 +207,7 @@ function gameLoop(){
         gameRunning = false;
         createEnemies(nEnemies);
         enemyReset();
+        projectiles.length = 0;
     }
     for(let i =0; i < projectiles.length; i++){
         ctx.beginPath();
@@ -228,6 +229,14 @@ function waveOne(){
          let coords  = moveOnPath(enemies[i].x, enemies[i].y);
         enemies[i].x = coords[0];
         enemies[i].y = coords[1];
+        for(let n = 0; n < projectiles.length; n++){
+            if( (projectiles[n].x < (enemies[i].x + 14)) && (projectiles[n].x > (enemies[i].x - 14)) && (projectiles[n].y < (enemies[i].y + 14)) && (projectiles[n].y > (enemies[i].y - 14)) ){
+                enemies[i].alive = false;
+                enemies[i].x = 830;
+                enemies[i].y = 165;
+                goldAmount += 1;
+            }
+        }
         if(enemies[i].x >= 800 && enemies[i].y >= 140 && enemies[i].y <= 190){
             if(enemies[i].alive === true){
                 lives -= 1;
@@ -313,8 +322,8 @@ function positionCheck(x, y){
 
 function createShot(i){
     if(towers[i].cooldown === 0){
-        let dx = Math.random() * 4;
-        let dy = Math.random() * 4;
+        let dx = (Math.random() * (3) + 1) * (Math.round(Math.random()) * 2 - 1);
+        let dy = (Math.random() * (3) + 1) * (Math.round(Math.random()) * 2 - 1);
         projectiles.push(new shot(towers[i].x, towers[i].y, dx, dy)) 
 
         if(towers[i].color === 'rgb(71, 48, 14)'){
