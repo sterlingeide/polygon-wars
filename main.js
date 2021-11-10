@@ -1,7 +1,7 @@
 let game = document.querySelector('#game');
 let ctx = game.getContext('2d');
 let newGame = document.querySelector('#top-middle');
-let pause = document.querySelector('#top-middle-right');
+let waveStart = document.querySelector('#top-middle-right');
 let roundDisplay = document.querySelector('#rounds');
 let towerOne = document.querySelector('#btm-left');
 let towerTwo = document.querySelector('#btm-middle-left');
@@ -15,6 +15,7 @@ let lives = 20;
 let nEnemies = 5;
 let towerSelect = 0;
 let goldAmount = 5;
+let waveCount = 0;
 
 
 game.setAttribute('height', getComputedStyle(game)["height"]);
@@ -46,8 +47,6 @@ class tower {
         this.towerClass = towerClass;
     
         this.render = function() {
-            //ctx.fillstyle = this.color;
-            //ctx.fillRect(this.x, this.y, this.width, this.height);
 
             var hexagon=new Path2D();
             hexagon.moveTo(this.x-25, this.y);
@@ -69,6 +68,8 @@ class shot {
         this.dx = dx;
         this.dy = dy;
         this.shotClass = shotClass;
+        this.distance = 0;
+        this.time = 0;
 
         this.render = function() {
             if(this.shotClass === 1){
@@ -87,7 +88,7 @@ class shot {
             }
             if(this.shotClass === 3){
                 ctx.fillStyle = 'black';
-                ctx.arc(this.x, this.y, 5, 2 *Math.PI, false);
+                ctx.arc(this.x, this.y, 20, 2 *Math.PI, false);
                 ctx.fill();
             }
         }
@@ -107,32 +108,37 @@ window.addEventListener("DOMContentLoaded", function(e) {
 newGame.addEventListener('click', function(e){
     console.log('Game Started');
     enemyReset();
-    gameRunning = true; 
+    gameRunning = false; 
     towers.length = 0;
+    projectiles.length = 0;
     goldAmount = 5;
+    lives = 20;
+    waveCount = 0;
+
 });
 
-pause.addEventListener('click', function(e){
-    console.log('Game Pause');
+waveStart.addEventListener('click', function(e){
+    console.log('wave start');
     if (gameRunning === false){
         gameRunning = true;
-    }else{
-        gameRunning = false;
-    }  
+        waveCount += 1;
+        nEnemies = (waveCount + 1) * 5;
+    }
+
 });
 
 game.addEventListener('click', function(e){
     console.log('clicked map');
     var x = event.clientX - 290;
     var y = event.clientY - 120;
-    if(towerSelect === 1 && positionCheck(x,y) && goldAmount >= 3){
-        goldAmount -= 3;
+    if(towerSelect === 1 && positionCheck(x,y) && goldAmount >= 5){
+        goldAmount -= 5;
         towers.push(new tower(x, y, 'rgb(71, 48, 14)', 25, 1));
-    }else if(towerSelect === 2 && positionCheck(x,y) && goldAmount >= 5){
-        goldAmount -= 5;
+    }else if(towerSelect === 2 && positionCheck(x,y) && goldAmount >= 10){
+        goldAmount -= 10;
         towers.push(new tower(x, y, '#00008B', 50, 2));
-    }else if(towerSelect === 3 && positionCheck(x,y) && goldAmount >= 5){
-        goldAmount -= 5;
+    }else if(towerSelect === 3 && positionCheck(x,y) && goldAmount >= 10){
+        goldAmount -= 10;
         towers.push(new tower(x, y, '#404040', 50, 3));
     }
 });
@@ -210,12 +216,11 @@ function towerBuild(){
 }
 
 function gameLoop(){
-    //console.log('loop');
     ctx.clearRect(0, 0, game.width, game.height);
     mapStartUp();
     towerBuild();
     if(gameRunning === true){
-        waveOne();
+        wave(waveCount);
         for(let i = 0; i < towers.length; i++){
             createShot(i);
         }
@@ -223,7 +228,7 @@ function gameLoop(){
     }
     if(endWaveCheck() === true){
         gameRunning = false;
-        createEnemies(nEnemies);
+        createEnemies((nEnemies));
         enemyReset();
         projectiles.length = 0;
     }
@@ -237,16 +242,29 @@ function gameLoop(){
     }
     lifeCount.textContent = "Lives: " + lives;
     goldCount.textContent = "Gold: " + goldAmount;
-    
+    roundDisplay.textContent = "Wave: " + waveCount;
+    // if(lives <= 0){
+
+    // }   
 }
 
-function waveOne(){
-    roundDisplay.textContent = "Wave: 1";
+function wave(waveN){
 
-    for (let i = 0; i < 5; i++){
-         let coords  = moveOnPath(enemies[i].x, enemies[i].y);
-        enemies[i].x = coords[0];
-        enemies[i].y = coords[1];
+    for (let i = 0; i < (5 * waveN); i++){
+        if( i === 0 ){
+            let coords  = moveOnPath(enemies[i].x, enemies[i].y);
+            enemies[i].x = coords[0];
+            enemies[i].y = coords[1];
+        }else if(enemies[i].x > 800){
+            let coords  = moveOnPath(enemies[i].x, enemies[i].y);
+            enemies[i].x = coords[0];
+            enemies[i].y = coords[1];
+        }else if((enemies[i].y - enemies[i-1].y) >= 50 || (enemies[i-1].y - enemies[i].y) >= 50 || (enemies[i].x - enemies[i-1].x) <= -2 || (enemies[i-1].x - enemies[i].x) <= -2){
+            let coords  = moveOnPath(enemies[i].x, enemies[i].y);
+            enemies[i].x = coords[0];
+            enemies[i].y = coords[1];
+        }
+
         for(let n = 0; n < projectiles.length; n++){
             if(projectiles[n].shotClass === 1){
                 if( (projectiles[n].x < (enemies[i].x + 14)) && (projectiles[n].x > (enemies[i].x - 14)) && (projectiles[n].y < (enemies[i].y + 14)) && (projectiles[n].y > (enemies[i].y - 14)) ){
@@ -271,6 +289,13 @@ function waveOne(){
                         goldAmount += 1;
                     }
                 }
+            }else if(projectiles[n].shotClass === 3){
+                if((projectiles[n].x < (enemies[i].x + 29)) && (projectiles[n].x > (enemies[i].x - 29)) && (projectiles[n].y < (enemies[i].y + 29)) && (projectiles[n].y > (enemies[i].y - 29))){
+                    enemies[i].alive = false;
+                    enemies[i].x = 830;
+                    enemies[i].y = 165;
+                    goldAmount += 1;
+                }
             }
         }
         if(enemies[i].x >= 800 && enemies[i].y >= 140 && enemies[i].y <= 190){
@@ -288,17 +313,17 @@ function waveOne(){
 
 function moveOnPath(x,y){
     if(x >= 0 && x <= 800 && y >= 236 && y <= 1000){
-        y -= 2;
+        y -= 3;
     }else if(x >= 0 && x <= 424 && y >= 230 && y <= 400){
-        x += 2;
+        x += 3;
     }else if(x >= 0 && x <= 430 && y >= 96 && y <= 400){
-        y -= 2;
+        y -= 3;
     }else if(x >= 0 && x <= 674 && y >= 92 && y <= 400){
-        x += 2;
+        x += 3;
     }else if(x >= 0 && x <= 680 && y >= 92 && y <= 164){
-        y += 2;
+        y += 3;
     }else if(x >= 0 && x <= 830 && y >= 92 && y <= 170){
-        x += 2;
+        x += 3;
     }
     return [x,y];
 }
@@ -316,7 +341,7 @@ function endWaveCheck(){
 function enemyReset(){
     for(let i = 0; i < enemies.length; i++){
         enemies[i].x = xStart;
-        enemies[i].y = yStart + (i * 50);
+        enemies[i].y = yStart;
         enemies[i].alive = true;
     }
 }
@@ -337,7 +362,6 @@ function positionCheck(x, y){
         }
         if(towerSelect === 1){
             if((x > 200 && x < 290 && y < 350 && y > 260) || (x > 450 && x < 540 && y < 210 && y > 120)){
-                console.log('deny');
                 return false;
             }
             if((x > 280 && x < 400 && y < 210 && y > 100) || (x > 540 && x < 650 && y < 210 && y > 120)){
@@ -345,10 +369,8 @@ function positionCheck(x, y){
             }
         }else if(towerSelect === 3){
             if((x > 200 && x < 290 && y < 350 && y > 260) || (x > 450 && x < 540 && y < 210 && y > 120)){
-                console.log('create');
                 return true;
             }else{
-                console.log('deny');
                 return false;
             }
         }else{
@@ -402,8 +424,20 @@ function projectileMovement(){
         }else if(projectiles[i].x > 800 || projectiles[i].x < 0 || projectiles[i].y > 400 || projectiles[i].y < 0){
             projectiles.splice(i, 1);
         }
-        
-        projectiles[i].x += projectiles[i].dx;
-        projectiles[i].y += projectiles[i].dy;
+        if(projectiles[i].shotClass === 1 || projectiles[i].shotClass === 2){
+            projectiles[i].x += projectiles[i].dx;
+            projectiles[i].y += projectiles[i].dy;
+        }else if(projectiles[i].shotClass === 3){
+            if(projectiles[i].distance < 100){
+                projectiles[i].x += projectiles[i].dx;
+                projectiles[i].y += projectiles[i].dy;
+                projectiles[i].distance += (Math.sqrt((projectiles[i].dx * projectiles[i].dx) + (projectiles[i].dy * projectiles[i].dy)));
+            }
+            if(projectiles[i].time > 100){
+                projectiles.splice(i, 1);
+            }
+            projectiles[i].time += 1;
+
+        }
     }
 }
