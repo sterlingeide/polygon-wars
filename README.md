@@ -41,7 +41,7 @@
     <li>When creating the towers I had to create buttons to select different towers as well as a way for the game to remember which tower type it was.</li>
     <li>The projectiles being released from the towers had to be tracked for their locations and speeds, as well as deleting them when they reached the border of the map.</li>
   </ul>
-  ~~~js class tower {
+  ~~~jsclass tower {
     constructor(x, y, color, cooldown, towerClass){
         this.x = x;
         this.y = y;
