@@ -65,8 +65,7 @@
             ctx.fill(hexagon);
         }
   }
-}
-~~~
+}~~~
   
   
 js~~~for(let i = 0; i < projectiles.length ; i++){
