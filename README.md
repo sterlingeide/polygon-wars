@@ -91,7 +91,7 @@ js~~~for(let i = 0; i < projectiles.length ; i++){
             projectiles[i].time += 1;
 
         }
-    }~~~
+~~~
   
   <h3>The Enemies:</h3>
   <ul>
