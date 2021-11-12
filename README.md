@@ -49,37 +49,45 @@
  <table>
    <thead>
      <tr>
-       <th>Event Listeners</th>
+       <th>Element</th>
+       <th>Event Listener</th>
        <th>Description</th>
      </tr>
    </thead>
    <tbody>
      <tr>
-       <td>window DOM content loaded</td>
+       <td>window</td>
+       <td>DOM content loaded</td>
        <td>starts the runGame function on an interval</td>
      </tr>
      <tr>
-       <td>newGame click </td>
+       <td>newGame</td>
+       <td>click</td>
        <td>calls fullReset and hides the instructions</td>
      </tr>
      <tr>
-       <td>waveStart click</td>
+       <td>waveStart</td>
+       <td>click</td>
        <td>starts the round and increments the wave count and enemy speed</td>
      </tr>
      <tr>
-       <td>game click</td>
+       <td>game</td>
+       <td>click</td>
        <td>maps where you click to the canvas and places a tower there if possible</td>
      </tr>
      <tr>
-       <td>towerOne click</td>
+       <td>towerOne</td>
+       <td>click</td>
        <td>sets the user selection to the first tower</td>
      </tr>
      <tr>
-       <td>towerTwo click</td>
+       <td>towerTwo</td>
+       <td>click</td>
        <td>sets the user selection to the second tower</td>
      </tr>
      <tr>
-       <td>towerThree click</td>
+       <td>towerThree</td>
+       <td>click</td>
        <td>sets the user selection to the third tower</td>
      </tr>
   </table>
