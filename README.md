@@ -27,13 +27,23 @@
   <table>
         <thead>
             <tr>
-                <th>Objects</th>
+                <th>Classes</th>
                 <th>Description</th>
             </tr>
         </thead>
         <tbody>
-          <td>tower</td>
-          <td>That's a tower</td>
+          <tr>
+            <td>tower</td>
+            <td>This contains the coordinates, color, cooldown, and type for each tower</td>
+          </tr>
+          <tr>
+            <td>enemy</td>
+            <td>This contains the coordinates, color, radius, and status for each enemy</td>
+          </tr>
+          <tr>
+            <td>shot</td>
+            <td>This contains the coordinates, movement, class, distance, and time for each projectile</td>
+          </tr>
         </tbody>
  </table>
  <table>
@@ -44,7 +54,9 @@
             </tr>
         </thead>
         <tbody>
-          <td>runGame</td>
-          <td>Runs things</td>
+          <tr>
+            <td>runGame</td>
+            <td>Runs things</td>
+          </tr>
         </tbody>
   </table>
