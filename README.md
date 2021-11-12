@@ -68,7 +68,7 @@
 ~~~
   
   
-~~~for(let i = 0; i < projectiles.length ; i++){
+~~~js for(let i = 0; i < projectiles.length ; i++){
         if(projectiles[i].shotClass === 2 && projectiles[i].dy === 0){
             if(projectiles[i].x > 741){
                 projectiles.splice(i, 1);
@@ -89,8 +89,6 @@
                 projectiles.splice(i, 1);
             }
             projectiles[i].time += 1;
-
-        }
 ~~~
   
   <h3>The Enemies:</h3>
