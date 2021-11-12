@@ -21,6 +21,7 @@
     ctx.arc(330, 150, 50, 0, 2 *Math.PI, false);
     ctx.fill();
 ~~~
+  
 ~~~js if ( (x < 150 || x > 200 || y < 210) && (x < 150 || x > 450 || y < 210 || y > 260) && (x < 400 || x > 450 || y < 70 || y > 260) && (x < 400 || x > 700 || y < 70 || y > 120) && (x < 650 || x > 700 || y < 70 || y > 190) && (x < 650 || y < 140 || y > 190)){
         for(let i = 0; i < towers.length; i++){
             if(x > (towers[i].x - 60) && x < (towers[i].x + 60) && y < (towers[i].y + 60) && y > (towers[i].y - 60)){
@@ -35,12 +36,14 @@
                 return false;
             }
   ~~~
+  
   <h3>The Towers:</h3>
   <ul>
     <li>The programming for the towers was largely differentiating the different towers and creating the projectiles that they shot.</li>
     <li>When creating the towers I had to create buttons to select different towers as well as a way for the game to remember which tower type it was.</li>
     <li>The projectiles being released from the towers had to be tracked for their locations and speeds, as well as deleting them when they reached the border of the map.</li>
   </ul>
+  
   ~~~js class tower {
     constructor(x, y, color, cooldown, towerClass){
         this.x = x;
@@ -61,7 +64,9 @@
             ctx.fillStyle = this.color;
             ctx.fill(hexagon);
         }
-~~~
+  }
+}~~~
+  
 js~~~for(let i = 0; i < projectiles.length ; i++){
         if(projectiles[i].shotClass === 2 && projectiles[i].dy === 0){
             if(projectiles[i].x > 741){
@@ -87,6 +92,7 @@ js~~~for(let i = 0; i < projectiles.length ; i++){
         }
     }
 ~~~
+  
   <h3>The Enemies:</h3>
   <ul>
     <li>The enemies had to be created each round with a scaling amount and speed so that difficulty would rise as the game went on.</li>
