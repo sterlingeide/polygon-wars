@@ -135,7 +135,7 @@ waveStart.addEventListener('click', function(e){
 
 game.addEventListener('click', function(e){
     console.log('clicked map');
-    var x = event.clientX - 290;
+    var x = event.clientX - 280;
     var y = event.clientY - 120;
     if(towerSelect === 1 && positionCheck(x,y) && goldAmount >= towerOneCost){
         goldAmount -= towerOneCost;
@@ -191,12 +191,12 @@ towerThree.addEventListener('click', function(e) {
 
 function mapStartUp(){
     ctx.fillStyle = 'tan';
-    ctx.fillRect(150, 210, 50, 190);
+    ctx.fillRect(150, 210, 50, 197);
     ctx.fillRect(150, 210, 300, 50);
     ctx.fillRect(400, 70, 50, 190);
     ctx.fillRect(400, 70, 300, 50);
     ctx.fillRect(650, 70, 50, 120);
-    ctx.fillRect(650, 140, 150, 50);
+    ctx.fillRect(650, 140, 165, 50);
     ctx.fillStyle ='blue';
     ctx.beginPath();
     ctx.arc(330, 150, 50, 0, 2 *Math.PI, false);
@@ -310,7 +310,7 @@ function wave(waveN){
                 }
             }
         }
-        if(enemies[i].x >= 800 && enemies[i].y >= 140 && enemies[i].y <= 190){
+        if(enemies[i].x >= 815 && enemies[i].y >= 140 && enemies[i].y <= 190){
             if(enemies[i].alive === true){
                 lives -= 1;
                 enemies[i].alive = false;
@@ -324,13 +324,13 @@ function wave(waveN){
 }
 
 function moveOnPath(x,y){
-    if(x >= 0 && x <= 800 && y >= 236 && y <= 500){
+    if(x >= 0 && x <= 815 && y >= 236 && y <= 500){
         y -= enemySpeed;
-    }else if(x >= 0 && x <= 424 && y >= 220 && y <= 400){
+    }else if(x >= 0 && x <= 424 && y >= 220 && y <= 407){
         x += enemySpeed;
-    }else if(x >= 0 && x <= 440 && y >= 96 && y <= 400){
+    }else if(x >= 0 && x <= 440 && y >= 96 && y <= 407){
         y -= enemySpeed;
-    }else if(x >= 0 && x <= 674 && y >= 80 && y <= 400){
+    }else if(x >= 0 && x <= 674 && y >= 80 && y <= 407){
         x += enemySpeed;
     }else if(x >= 0 && x <= 690 && y >= 80 && y <= 164){
         y += enemySpeed;
@@ -343,7 +343,7 @@ function moveOnPath(x,y){
 function endWaveCheck(){
     
     for(let i = 0; i < enemies.length; i++){
-        if(enemies[i].x < 800){
+        if(enemies[i].x < 815){
             return false;
         }
     }
@@ -435,7 +435,7 @@ function projectileMovement(){
             if(projectiles[i].x > 741){
                 projectiles.splice(i, 1);
             }
-        }else if(projectiles[i].x > 800 || projectiles[i].x < 0 || projectiles[i].y > 400 || projectiles[i].y < 0){
+        }else if(projectiles[i].x > 815 || projectiles[i].x < 0 || projectiles[i].y > 407 || projectiles[i].y < 0){
             projectiles.splice(i, 1);
         }
         if(projectiles[i].shotClass === 1 || projectiles[i].shotClass === 2){
