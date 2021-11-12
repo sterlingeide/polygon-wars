@@ -5,19 +5,19 @@
 ![img/wireFrame.png](img/wireFrame.png)
 
 <h2> Key Elements</h2>
-  <h3>The Map</h3>
+  <h3>The Map:</h3>
   <ul>
     <li>The main work with creating the map was focused on creating the path that enemies would travel on and making the enemies travel on that path.</li>
     <li>I also wanted to create regions that only certain towers could be built on and thus created the mountains and lakes that dot the map.</li>
     <li>Finally I limited where the towers could be placed and added the border to the map so nothing could go passed it.  </li>
   </ul>
-  <h3>The Towers </h3>
+  <h3>The Towers:</h3>
   <ul>
     <li>The programming for the towers was largely differentiating the different towers and creating the projectiles that they shot.</li>
     <li>When creating the towers I had to create buttons to select different towers as well as a way for the game to remember which tower type it was.</li>
     <li>The projectiles being released from the towers had to be tracked for their locations and speeds, as well as deleting them when they reached the border of the map.</li>
   </ul>
-  <h3>The Enemies </h3>
+  <h3>The Enemies:</h3>
   <ul>
     <li>The enemies had to be created each round with a scaling amount and speed so that difficulty would rise as the game went on.</li>
     <li>I also had to check for when the enemies were hit by a projectile and delete them if they were.</li>
