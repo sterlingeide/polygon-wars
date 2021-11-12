@@ -62,7 +62,8 @@
             ctx.fill(hexagon);
         }
     }
-}~~~
+}
+~~~
 js~~~for(let i = 0; i < projectiles.length ; i++){
         if(projectiles[i].shotClass === 2 && projectiles[i].dy === 0){
             if(projectiles[i].x > 741){
