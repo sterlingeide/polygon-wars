@@ -4,10 +4,14 @@ let newGame = document.querySelector('#top-middle');
 let waveStart = document.querySelector('#top-middle-right');
 let roundDisplay = document.querySelector('#rounds');
 let towerOne = document.querySelector('#btm-left');
+let bunkerText = document.querySelector('#bunker');
 let towerTwo = document.querySelector('#btm-middle-left');
+let battleShipText = document.querySelector('#battle-ship');
 let towerThree = document.querySelector('#btm-middle');
+let mountainPerchText = document.querySelector('#mountain-perch');
 let goldCount = document.querySelector('#gold');
 let lifeCount = document.querySelector('#lives');
+let instructions = document.querySelector('.start');
 let gameRunning = false;
 let xStart = 175;
 let yStart = 420;
@@ -17,6 +21,9 @@ let towerSelect = 0;
 let goldAmount = 5;
 let waveCount = 0;
 let enemySpeed = 2;
+let towerOneCost = 4;
+let towerTwoCost = 7;
+let towerThreeCost = 10;
 
 
 game.setAttribute('height', getComputedStyle(game)["height"]);
@@ -108,7 +115,7 @@ window.addEventListener("DOMContentLoaded", function(e) {
 
 newGame.addEventListener('click', function(e){
     fullReset();
-
+    instructions.classList.add('hidden');
 });
 
 waveStart.addEventListener('click', function(e){
@@ -117,7 +124,11 @@ waveStart.addEventListener('click', function(e){
         gameRunning = true;
         waveCount += 1;
         nEnemies = (waveCount + 1) * 5;
-        enemySpeed += 1;
+        if (enemySpeed < 15){
+            enemySpeed += 1;
+        }else{
+            enemySpeed = 15;
+        }
     }
 
 });
@@ -126,15 +137,18 @@ game.addEventListener('click', function(e){
     console.log('clicked map');
     var x = event.clientX - 290;
     var y = event.clientY - 120;
-    if(towerSelect === 1 && positionCheck(x,y) && goldAmount >= 4){
-        goldAmount -= 4;
+    if(towerSelect === 1 && positionCheck(x,y) && goldAmount >= towerOneCost){
+        goldAmount -= towerOneCost;
+        towerOneCost = towerOneCost*2;
         towers.push(new tower(x, y, 'rgb(71, 48, 14)', 25, 1));
-    }else if(towerSelect === 2 && positionCheck(x,y) && goldAmount >= 7){
-        goldAmount -= 7;
-        towers.push(new tower(x, y, '#00008B', 50, 2));
-    }else if(towerSelect === 3 && positionCheck(x,y) && goldAmount >= 10){
-        goldAmount -= 10;
-        towers.push(new tower(x, y, '#404040', 50, 3));
+    }else if(towerSelect === 2 && positionCheck(x,y) && goldAmount >= towerTwoCost){
+        goldAmount -= towerTwoCost;
+        towerTwoCost = towerTwoCost*2;
+        towers.push(new tower(x, y, '#00008B', 60, 2));
+    }else if(towerSelect === 3 && positionCheck(x,y) && goldAmount >= towerThreeCost){
+        goldAmount -= towerThreeCost;
+        towerThreeCost = towerThreeCost*2;
+        towers.push(new tower(x, y, '#404040', 75, 3));
     }
 });
 
@@ -238,6 +252,9 @@ function gameLoop(){
     lifeCount.textContent = "Lives: " + lives;
     goldCount.textContent = "Gold: " + goldAmount;
     roundDisplay.textContent = "Wave: " + waveCount;
+    bunkerText.textContent = "Bunker: " + towerOneCost + " gold"; 
+    battleShipText.textContent = "Battle Ship: " + towerTwoCost + " gold";
+    mountainPerchText.textContent = "Mountain Perch: " + towerThreeCost + " gold";
     if(lives <= 0){
         fullReset();
     }   
@@ -317,7 +334,7 @@ function moveOnPath(x,y){
         x += enemySpeed;
     }else if(x >= 0 && x <= 690 && y >= 80 && y <= 164){
         y += enemySpeed;
-    }else if(x >= 0 && x <= 830 && y >= 80 && y <= 170){
+    }else if(x >= 0 && x <= 830 && y >= 80 && y <= 180){
         x += enemySpeed;
     }
     return [x,y];
@@ -402,6 +419,8 @@ function createShot(i){
 
         if(towers[i].towerClass === 1){
             towers[i].cooldown = 25;
+        }else if(towers[i].towerClass === 2){
+            towers[i].cooldown = 60;
         }else{
             towers[i].cooldown = 75;
         }
@@ -428,7 +447,7 @@ function projectileMovement(){
                 projectiles[i].y += projectiles[i].dy;
                 projectiles[i].distance += (Math.sqrt((projectiles[i].dx * projectiles[i].dx) + (projectiles[i].dy * projectiles[i].dy)));
             }
-            if(projectiles[i].time > 100){
+            if(projectiles[i].time > 80){
                 projectiles.splice(i, 1);
             }
             projectiles[i].time += 1;
@@ -443,7 +462,13 @@ function fullReset(){
     gameRunning = false; 
     towers.length = 0;
     projectiles.length = 0;
+    enemies.length = 0;
     goldAmount = 5;
     lives = 20;
     waveCount = 0;
+    towerOneCost = 4;
+    towerTwoCost = 7;
+    towerThreeCost = 10;
+    enemySpeed = 2;
+    nEnemies = 5;
 }

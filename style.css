@@ -17,6 +17,13 @@ html,body {
     /* font-family: monospace; */
     color: rgb(179, 190, 21);
   }
+
+  p{
+    font-family: 'Press Start 2P', monospace;
+    /* font-family: monospace; */
+    color: rgb(179, 190, 21);
+    line-height: 2em;
+  }
   
   canvas {
     /* background-image: url('../img/stone.png'); */
@@ -27,7 +34,7 @@ html,body {
   }
   
   #container {
-  max-width: 50em;
+  max-width: 50.1em;
   /* height: 70vh; */
   background-color: rgb(55, 68, 10);
   margin: 0 auto;
@@ -61,6 +68,13 @@ html,body {
   main {
     grid-area: game;
   }
+
+  .start {
+    background-color: black;
+    text-align: center;
+    grid-area: game;
+    z-index: 1;
+  }
   
   
   #btm-left {
@@ -76,10 +90,12 @@ html,body {
   #btm-middle {
     grid-area: btm-middle;
   }
-
-  
   
   #btm-right {
     grid-area: btm-right;
     /* background-color: #222; */
   }
+
+  .hidden {
+    display: none;
+    }
