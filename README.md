@@ -35,7 +35,7 @@
           <td>tower</td>
           <td>That's a tower</td>
         </tbody>
-        <br><br>
+    <br><p></p><br>
         <thead>
             <tr>
                 <th>Functions</th>
