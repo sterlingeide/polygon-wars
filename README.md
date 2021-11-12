@@ -41,6 +41,54 @@
     <li>When creating the towers I had to create buttons to select different towers as well as a way for the game to remember which tower type it was.</li>
     <li>The projectiles being released from the towers had to be tracked for their locations and speeds, as well as deleting them when they reached the border of the map.</li>
   </ul>
+  ~~~js class tower {
+    constructor(x, y, color, cooldown, towerClass){
+        this.x = x;
+        this.y = y;
+        this.color = color;
+        this.cooldown = cooldown;
+        this.towerClass = towerClass;
+    
+        this.render = function() {
+
+            var hexagon=new Path2D();
+            hexagon.moveTo(this.x-25, this.y);
+            hexagon.lineTo(this.x-12.5, this.y+25);
+            hexagon.lineTo(this.x+12.5, this.y+25);
+            hexagon.lineTo(this.x+25, this.y);
+            hexagon.lineTo(this.x+12.5, this.y-25);
+            hexagon.lineTo(this.x-12.5, this.y-25);
+            ctx.fillStyle = this.color;
+            ctx.fill(hexagon);
+        }
+    }
+}
+~~~
+js~~~for(let i = 0; i < projectiles.length ; i++){
+        if(projectiles[i].shotClass === 2 && projectiles[i].dy === 0){
+            if(projectiles[i].x > 741){
+                projectiles.splice(i, 1);
+            }
+        }else if(projectiles[i].x > 815 || projectiles[i].x < 0 || projectiles[i].y > 407 || projectiles[i].y < 0){
+            projectiles.splice(i, 1);
+        }
+        if(projectiles[i].shotClass === 1 || projectiles[i].shotClass === 2){
+            projectiles[i].x += projectiles[i].dx;
+            projectiles[i].y += projectiles[i].dy;
+        }else if(projectiles[i].shotClass === 3){
+            if(projectiles[i].distance < 100){
+                projectiles[i].x += projectiles[i].dx;
+                projectiles[i].y += projectiles[i].dy;
+                projectiles[i].distance += (Math.sqrt((projectiles[i].dx * projectiles[i].dx) + (projectiles[i].dy * projectiles[i].dy)));
+            }
+            if(projectiles[i].time > 80){
+                projectiles.splice(i, 1);
+            }
+            projectiles[i].time += 1;
+
+        }
+    }
+~~~
   <h3>The Enemies:</h3>
   <ul>
     <li>The enemies had to be created each round with a scaling amount and speed so that difficulty would rise as the game went on.</li>
