@@ -70,5 +70,37 @@
             <td>wave</td>
             <td>"moves" the enemies and checks if the enemies have been hit by a projectile or made it through the map</td>
           </tr>
+          <tr>
+            <td>moveOnPath</td>
+            <td>returns the coordinates of the enmies based on where they are on the map</td>
+          </tr>
+          <tr>
+            <td>endWaveCheck</td>
+            <td>returns false if enemies are still on the map, and true if there aren't</td>
+          </tr>
+          <tr>
+            <td>enemyReset</td>
+            <td>sets all of the enmies coordinates to the starting location and sets them to alive</td>
+          </tr>
+          <tr>
+            <td>createEnemies</td>
+            <td>clears the array of enemies and then creates as many enemies as needed for the next wave</td>
+          </tr>
+          <tr>
+            <td>positionCheck</td>
+            <td>returns true if the chosen tower can be placed on the clicked spot or false otherwise</td>
+          </tr>
+          <tr>
+            <td>createShot</td>
+            <td>creates a projectile if the tower is off cooldown </td>
+          </tr>
+          <tr>
+            <td>projectileMovement</td>
+            <td>"moves" the projectiles and deletes the projectile if it reaches the end of the map</td>
+          </tr>
+          <tr>
+            <td>fullReset</td>
+            <td>resets many variables for the beginning of a new game</td>
+          </tr>
         </tbody>
   </table>
