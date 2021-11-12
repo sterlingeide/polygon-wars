@@ -19,8 +19,8 @@
     ctx.fillStyle ='blue';
     ctx.beginPath();
     ctx.arc(330, 150, 50, 0, 2 *Math.PI, false);
-    ctx.fill();~~~
-
+    ctx.fill();
+~~~
   <h3>The Towers:</h3>
   <ul>
     <li>The programming for the towers was largely differentiating the different towers and creating the projectiles that they shot.</li>
