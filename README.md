@@ -55,8 +55,20 @@
         </thead>
         <tbody>
           <tr>
-            <td>runGame</td>
-            <td>Runs things</td>
+            <td>mapStartUp</td>
+            <td>renders all of the static and constant aspects of the map</td>
+          </tr>
+          <tr>
+            <td>towerBuild</td>
+            <td>renders all of the currently placed towers</td>
+          </tr>
+          <tr>
+            <td>gameLoop</td>
+            <td>Clears the canvas and calls all of the appropiate functions based on the game state and then renders the appropiate items</td>
+          </tr>
+          <tr>
+            <td>wave</td>
+            <td>"moves" the enemies and checks if the enemies have been hit by a projectile or made it through the map</td>
           </tr>
         </tbody>
   </table>
