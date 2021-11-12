@@ -23,3 +23,25 @@
     <li>I also had to check for when the enemies were hit by a projectile and delete them if they were.</li>
     <li>Finally I had to track how many enemies got killed or made it through to either reward gold or take lives based on what happened.</li>
   </ul>
+  <table>
+        <thead>
+            <tr>
+                <th>Classes</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+          <td>tower</td>
+          <td>That's a tower</td>
+        </tbody>
+        <thead>
+            <tr>
+                <th>Functions</th>
+                <th>Description</th>
+            </tr>
+        </thead>
+        <tbody>
+          <td>runGame</td>
+          <td>Runs things</td>
+        </tbody>
+ </table>
