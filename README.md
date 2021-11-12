@@ -12,14 +12,14 @@
     <li>Finally I limited where the towers could be placed and added the border to the map so nothing could go passed it.  </li>
   </ul>
 ~~~js
-      ctx.fillRect(400, 70, 50, 190);
-    ctx.fillRect(400, 70, 300, 50);
-    ctx.fillRect(650, 70, 50, 120);
-    ctx.fillRect(650, 140, 165, 50);
-    ctx.fillStyle ='blue';
-    ctx.beginPath();
-    ctx.arc(330, 150, 50, 0, 2 *Math.PI, false);
-    ctx.fill();
+ctx.fillRect(400, 70, 50, 190);
+ctx.fillRect(400, 70, 300, 50);
+ctx.fillRect(650, 70, 50, 120);
+ctx.fillRect(650, 140, 165, 50);
+ctx.fillStyle ='blue';
+ctx.beginPath();
+ctx.arc(330, 150, 50, 0, 2 *Math.PI, false);
+ctx.fill();
 ~~~
   <h3>The Towers:</h3>
   <ul>
