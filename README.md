@@ -23,7 +23,7 @@
     <li>I also had to check for when the enemies were hit by a projectile and delete them if they were.</li>
     <li>Finally I had to track how many enemies got killed or made it through to either reward gold or take lives based on what happened.</li>
   </ul>
-<h2> List of Objects and Functions </h2>
+<h2> List of Classes, Event Listeners, and Functions </h2>
   <table>
         <thead>
             <tr>
@@ -46,6 +46,43 @@
           </tr>
         </tbody>
  </table>
+ <table>
+   <thead>
+     <tr>
+       <th>Event Listeners</th>
+       <th>Description</th>
+     </tr>
+   </thead>
+   <tbody>
+     <tr>
+       <td>window DOM content loaded</td>
+       <td>starts the runGame function on an interval</td>
+     </tr>
+     <tr>
+       <td>newGame click </td>
+       <td>calls fullReset and hides the instructions</td>
+     </tr>
+     <tr>
+       <td>waveStart click</td>
+       <td>starts the round and increments the wave count and enemy speed</td>
+     </tr>
+     <tr>
+       <td>game click</td>
+       <td>maps where you click to the canvas and places a tower there if possible</td>
+     </tr>
+     <tr>
+       <td>towerOne click</td>
+       <td>sets the user selection to the first tower</td>
+     </tr>
+     <tr>
+       <td>towerTwo click</td>
+       <td>sets the user selection to the second tower</td>
+     </tr>
+     <tr>
+       <td>towerThree click</td>
+       <td>sets the user selection to the third tower</td>
+     </tr>
+  </table>
  <table>
         <thead>
             <tr>
