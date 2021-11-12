@@ -23,10 +23,11 @@
     <li>I also had to check for when the enemies were hit by a projectile and delete them if they were.</li>
     <li>Finally I had to track how many enemies got killed or made it through to either reward gold or take lives based on what happened.</li>
   </ul>
+  <h2> List of Objects and Functions </h2>
   <table>
         <thead>
             <tr>
-                <th>Classes</th>
+                <th>Objects</th>
                 <th>Description</th>
             </tr>
         </thead>
