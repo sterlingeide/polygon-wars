@@ -35,7 +35,8 @@
           <td>tower</td>
           <td>That's a tower</td>
         </tbody>
-    <br><p> </p><br>
+ </table>
+ <table>
         <thead>
             <tr>
                 <th>Functions</th>
@@ -46,4 +47,4 @@
           <td>runGame</td>
           <td>Runs things</td>
         </tbody>
- </table>
+  </table>
