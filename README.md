@@ -97,6 +97,34 @@
     <li>I also had to check for when the enemies were hit by a projectile and delete them if they were.</li>
     <li>Finally I had to track how many enemies got killed or made it through to either reward gold or take lives based on what happened.</li>
   </ul>
+  
+~~~js for(let i = 0; i < projectiles.length ; i++){
+        if(projectiles[i].shotClass === 2 && projectiles[i].dy === 0){
+            if(projectiles[i].x > 741){
+                projectiles.splice(i, 1);
+            }
+        }else if(projectiles[i].x > 815 || projectiles[i].x < 0 || projectiles[i].y > 407 || projectiles[i].y < 0){
+            projectiles.splice(i, 1);
+        }
+        if(projectiles[i].shotClass === 1 || projectiles[i].shotClass === 2){
+            projectiles[i].x += projectiles[i].dx;
+            projectiles[i].y += projectiles[i].dy;
+        }else if(projectiles[i].shotClass === 3){
+            if(projectiles[i].distance < 100){
+                projectiles[i].x += projectiles[i].dx;
+                projectiles[i].y += projectiles[i].dy;
+                projectiles[i].distance += (Math.sqrt((projectiles[i].dx * projectiles[i].dx) + (projectiles[i].dy * projectiles[i].dy)));
+            }
+            if(projectiles[i].time > 80){
+                projectiles.splice(i, 1);
+            }
+            projectiles[i].time += 1;
+
+        }
+    }
+~~~
+  
+  
 <h2> List of Classes, Event Listeners, and Functions </h2>
   <table>
         <thead>
