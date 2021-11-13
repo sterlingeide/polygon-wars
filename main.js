@@ -140,7 +140,7 @@ game.addEventListener('click', function(e){
     if(towerSelect === 1 && positionCheck(x,y) && goldAmount >= towerOneCost){
         goldAmount -= towerOneCost;
         towerOneCost = towerOneCost*2;
-        towers.push(new tower(x, y, 'rgb(71, 48, 14)', 25, 1));
+        towers.push(new tower(x, y, 'rgb(71, 48, 14)', 20, 1));
     }else if(towerSelect === 2 && positionCheck(x,y) && goldAmount >= towerTwoCost){
         goldAmount -= towerTwoCost;
         towerTwoCost = towerTwoCost*2;
@@ -418,7 +418,7 @@ function createShot(i){
         projectiles.push(new shot(towers[i].x, towers[i].y, dx, dy, towers[i].towerClass)); 
 
         if(towers[i].towerClass === 1){
-            towers[i].cooldown = 25;
+            towers[i].cooldown = 20;
         }else if(towers[i].towerClass === 2){
             towers[i].cooldown = 60;
         }else{
