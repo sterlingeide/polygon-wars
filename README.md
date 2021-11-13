@@ -98,6 +98,22 @@
     <li>Finally I had to track how many enemies got killed or made it through to either reward gold or take lives based on what happened.</li>
   </ul>
   
+~~~js  for (let i = 0; i < (5 * waveN); i++){
+        if( i === 0 ){
+            let coords  = moveOnPath(enemies[i].x, enemies[i].y);
+            enemies[i].x = coords[0];
+            enemies[i].y = coords[1];
+        }else if(enemies[i].y < 370){
+            let coords  = moveOnPath(enemies[i].x, enemies[i].y);
+            enemies[i].x = coords[0];
+            enemies[i].y = coords[1];
+        }else if((enemies[i].y - enemies[i-1].y) >= 50 || (enemies[i-1].y - enemies[i].y) >= 50 || (enemies[i].x - enemies[i-1].x) <= -2 || (enemies[i-1].x - enemies[i].x) <= -2){
+            let coords  = moveOnPath(enemies[i].x, enemies[i].y);
+            enemies[i].x = coords[0];
+            enemies[i].y = coords[1];
+        }
+~~~
+  
 ~~~js for(let i = 0; i < projectiles.length ; i++){
         if(projectiles[i].shotClass === 2 && projectiles[i].dy === 0){
             if(projectiles[i].x > 741){
