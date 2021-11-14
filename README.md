@@ -9,7 +9,7 @@
     <li>Go to the live website</li>
     <li>Place towers using your gold</li>
     <li>Press start wave</li>
-    <li>Keep playing until the circles over run you</li>
+    <li>Keep playing until the circles overrun you</li>
   
 <h2> Key Elements</h2>
   <h3>The Map:</h3>
