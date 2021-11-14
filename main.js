@@ -137,9 +137,12 @@ game.addEventListener('click', function(e){
     console.log('clicked map');
     // var x = event.clientX - 280;
     // var y = event.clientY - 120;
-    var rect = game.getBoundingClientRect()
-    var x = event.clientX - rect.left
-    var y = event.clientY - rect.top
+    // var rect = game.getBoundingClientRect()
+    // var x = event.clientX - rect.left
+    // var y = event.clientY - rect.top
+    var x = event.x - game.offsetLeft;
+    var y = event.y - game.offsetTop;
+
     if(towerSelect === 1 && positionCheck(x,y) && goldAmount >= towerOneCost){
         goldAmount -= towerOneCost;
         towerOneCost = towerOneCost*2;
