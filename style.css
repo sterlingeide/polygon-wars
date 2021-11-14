@@ -34,7 +34,7 @@ html,body {
   }
   
   #container {
-  max-width: 51em;
+  max-width: 55em;
   /* height: 70vh; */
   background-color: rgb(55, 68, 10);
   margin: 0 auto;
