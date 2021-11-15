@@ -139,8 +139,8 @@ game.addEventListener('click', function(e){
     var x = event.clientX - rect.left
     var y = event.clientY - rect.top
     console.log("x: " + x + "y: " + y);
-    x = x * .92;
-    y = y * .91;
+    x = x * .93;
+    y = y * .92;
     
 
     if(towerSelect === 1 && positionCheck(x,y) && goldAmount >= towerOneCost){
