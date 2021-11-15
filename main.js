@@ -29,7 +29,7 @@ let towerThreeCost = 10;
 game.setAttribute('height', getComputedStyle(game)["height"]);
 game.setAttribute('width', getComputedStyle(game)["width"]);
 
-
+//the class I use to model each enemy circle
 class enemy {
     constructor(x ,y){
         this.x = x;
@@ -46,6 +46,7 @@ class enemy {
     }
 }
 
+//the class used to model each tower
 class tower {
     constructor(x, y, color, cooldown, towerClass){
         this.x = x;
@@ -69,6 +70,7 @@ class tower {
     }
 }
 
+//the class used to model each projectile fired by the towers
 class shot {
     constructor(x, y, dx, dy, shotClass){
         this.x = x;
@@ -104,10 +106,12 @@ class shot {
     }
 }
 
+//arrays that will hold all the current enemies, towers and projectiles
 let enemies = [];
 let towers = [];
 let projectiles = [];
 
+//starts the game as soon as its loaded
 window.addEventListener("DOMContentLoaded", function(e) {
     const runGame = setInterval(gameLoop, 40);
 
@@ -118,6 +122,8 @@ newGame.addEventListener('click', function(e){
     instructions.classList.add('hidden');
 });
 
+//increasaes the wavecount so the program knows how many enemies to create
+//increases speed to raise difficulty
 waveStart.addEventListener('click', function(e){
     if (gameRunning === false){
         gameRunning = true;
@@ -136,10 +142,11 @@ game.addEventListener('click', function(e){
     var rect = game.getBoundingClientRect()
     var x = event.clientX - rect.left
     var y = event.clientY - rect.top
+    //constants applied to correct page coordinates to canvas coordinates
     x = x * .93;
     y = y * .92;
     
-
+    //determines which type of tower to create and if it can be created
     if(towerSelect === 1 && positionCheck(x,y) && goldAmount >= towerOneCost){
         goldAmount -= towerOneCost;
         towerOneCost = towerOneCost*2;
@@ -193,6 +200,7 @@ towerThree.addEventListener('click', function(e) {
 
 
 function mapStartUp(){
+    //the road
     ctx.fillStyle = 'tan';
     ctx.fillRect(150, 210, 50, 197);
     ctx.fillRect(150, 210, 300, 50);
@@ -200,6 +208,7 @@ function mapStartUp(){
     ctx.fillRect(400, 70, 300, 50);
     ctx.fillRect(650, 70, 50, 120);
     ctx.fillRect(650, 140, 165, 50);
+    //the lakes
     ctx.fillStyle ='blue';
     ctx.beginPath();
     ctx.arc(330, 150, 50, 0, 2 *Math.PI, false);
@@ -208,6 +217,7 @@ function mapStartUp(){
     ctx.beginPath();
     ctx.arc(600, 170, 40, 0, 2* Math.PI, false);
     ctx.fill();
+    //the mountains
     var triangle1=new Path2D();
     triangle1.moveTo(210, 350);
     triangle1.lineTo(290, 350);
@@ -231,6 +241,7 @@ function gameLoop(){
     ctx.clearRect(0, 0, game.width, game.height);
     mapStartUp();
     towerBuild();
+    //runs game functions if the player is in the middle of a wave
     if(gameRunning === true){
         wave(waveCount);
         for(let i = 0; i < towers.length; i++){
@@ -238,12 +249,14 @@ function gameLoop(){
         }
         projectileMovement();
     }
+    //checks if the wave is over yet and runs necessary functions if it is
     if(endWaveCheck() === true){
         gameRunning = false;
         createEnemies((nEnemies));
         enemyReset();
         projectiles.length = 0;
     }
+    //rendering enemies and projectiles
     for(let i =0; i < projectiles.length; i++){
         ctx.beginPath();
         projectiles[i].render();
@@ -252,6 +265,7 @@ function gameLoop(){
         ctx.beginPath();
         enemies[i].render();
     }
+    //adjusting text
     lifeCount.textContent = "Lives: " + lives;
     goldCount.textContent = "Gold: " + goldAmount;
     roundDisplay.textContent = "Wave: " + waveCount;
@@ -265,8 +279,9 @@ function gameLoop(){
 }
 
 function wave(waveN){
-
+    //iterating through each enemy
     for (let i = 0; i < (5 * waveN); i++){
+        //moving the enemy if the previous enemy is far enough away
         if( i === 0 ){
             let coords  = moveOnPath(enemies[i].x, enemies[i].y);
             enemies[i].x = coords[0];
@@ -280,8 +295,9 @@ function wave(waveN){
             enemies[i].x = coords[0];
             enemies[i].y = coords[1];
         }
-
+        //iterating through projectiles
         for(let n = 0; n < projectiles.length; n++){
+            //checking if projectile has collided with an enemy
             if(projectiles[n].shotClass === 1){
                 if( (projectiles[n].x < (enemies[i].x + 14)) && (projectiles[n].x > (enemies[i].x - 14)) && (projectiles[n].y < (enemies[i].y + 14)) && (projectiles[n].y > (enemies[i].y - 14)) ){
                     enemies[i].alive = false;
@@ -314,6 +330,7 @@ function wave(waveN){
                 }
             }
         }
+        //checking if enemies made it through the map
         if(enemies[i].x >= 815 && enemies[i].y >= 140 && enemies[i].y <= 190){
             if(enemies[i].alive === true){
                 lives -= 1;
@@ -326,7 +343,7 @@ function wave(waveN){
 
 
 }
-
+//moving enemies based on where they are
 function moveOnPath(x,y){
     if(x >= 0 && x <= 815 && y >= 236 && y <= 500){
         y -= enemySpeed;
@@ -344,8 +361,7 @@ function moveOnPath(x,y){
     return [x,y];
 }
 
-function endWaveCheck(){
-    
+function endWaveCheck(){  
     for(let i = 0; i < enemies.length; i++){
         if(enemies[i].x < 815){
             return false;
@@ -370,6 +386,7 @@ function createEnemies(n){
 }
 
 function positionCheck(x, y){
+    //see if the selected tower can be placed where clicked
     if ( (x < 150 || x > 200 || y < 210) && (x < 150 || x > 450 || y < 210 || y > 260) && (x < 400 || x > 450 || y < 70 || y > 260) && (x < 400 || x > 700 || y < 70 || y > 120) && (x < 650 || x > 700 || y < 70 || y > 190) && (x < 650 || y < 140 || y > 190)){
         for(let i = 0; i < towers.length; i++){
             if(x > (towers[i].x - 60) && x < (towers[i].x + 60) && y < (towers[i].y + 60) && y > (towers[i].y - 60)){
@@ -402,9 +419,11 @@ function positionCheck(x, y){
 }
 
 function createShot(i){
+    //checking if a shot is ready to be fired
     if(towers[i].cooldown === 0){
         let dx;
         let dy;
+        //creating location and movement based on what tower it is
         if(towers[i].towerClass === 2){
             dx = Math.round(Math.random()) * (Math.round(Math.random()) * 2 - 1);
             if(dx === 0){
@@ -435,6 +454,7 @@ function createShot(i){
 
 function projectileMovement(){
     for(let i = 0; i < projectiles.length ; i++){
+        //removing shots if necessary
         if(projectiles[i].shotClass === 2 && projectiles[i].dy === 0){
             if(projectiles[i].x > 741){
                 projectiles.splice(i, 1);
@@ -442,6 +462,7 @@ function projectileMovement(){
         }else if(projectiles[i].x > 815 || projectiles[i].x < 0 || projectiles[i].y > 407 || projectiles[i].y < 0){
             projectiles.splice(i, 1);
         }
+        //moving projectiles
         if(projectiles[i].shotClass === 1 || projectiles[i].shotClass === 2){
             projectiles[i].x += projectiles[i].dx;
             projectiles[i].y += projectiles[i].dy;
