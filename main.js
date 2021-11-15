@@ -136,9 +136,22 @@ waveStart.addEventListener('click', function(e){
 game.addEventListener('click', function(e){
     console.log('clicked map');
     var rect = game.getBoundingClientRect()
-    var x = event.clientX - rect.left - 20
-    var y = event.clientY - rect.top - 10
+    var x = event.clientX - rect.left
+    var y = event.clientY - rect.top
     console.log("x: " + x + "y: " + y);
+
+    // if(x < 100){
+
+    // }else if(x < 400){
+
+    // }else{
+
+    // }
+    // if( y < 200){
+
+    // }else{
+
+    // }
     
 
     if(towerSelect === 1 && positionCheck(x,y) && goldAmount >= towerOneCost){

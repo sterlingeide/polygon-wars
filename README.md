@@ -1,5 +1,5 @@
 <h1>Polygon Wars</h1>
-<p>Having made a few simple games before, I wanted to push myself and createone of my favorite genres og games as a kid, Tower Defense. As I got further into the project I found that there is an endless amount of features you can add to these games so I learned I needed to decide what I want to add to Polygon Wars. I ended up focusing on limiting tower placement, randomized projectiles, and increasing difficulty.<p>
+<p>Having made a few simple games before, I wanted to push myself and create one of my favorite genres of games as a kid, Tower Defense. As I got further into the project I found that there is an endless amount of features you can add to these games so I learned I needed to decide what I want to add to Polygon Wars. I ended up focusing on limiting tower placement, randomized projectiles, and increasing difficulty.<p>
 
 <h2>The Original Wire Frame<h2>
 <img src="https://i.imgur.com/pDL1vqy.png" alt="Photo of wireframe">
