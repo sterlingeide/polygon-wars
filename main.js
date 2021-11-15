@@ -4,7 +4,7 @@ let newGame = document.querySelector('#top-middle');
 let waveStart = document.querySelector('#top-middle-right');
 let roundDisplay = document.querySelector('#rounds');
 let towerOne = document.querySelector('#btm-left');
-let bunkerText = document.querySelector('#bunker');
+//let bunkerText = document.querySelector('#bunker');
 let towerTwo = document.querySelector('#btm-middle-left');
 let battleShipText = document.querySelector('#battle-ship');
 let towerThree = document.querySelector('#btm-middle');
@@ -255,7 +255,9 @@ function gameLoop(){
     lifeCount.textContent = "Lives: " + lives;
     goldCount.textContent = "Gold: " + goldAmount;
     roundDisplay.textContent = "Wave: " + waveCount;
-    bunkerText.textContent = "Bunker: " + towerOneCost + " gold"; 
+    //bunkerText.textContent = "Bunker: " + towerOneCost + " gold"; 
+    towerOne.textContent = "Bunker: " + towerOneCost + " gold"; 
+
     battleShipText.textContent = "Battle Ship: " + towerTwoCost + " gold";
     mountainPerchText.textContent = "Mountain Perch: " + towerThreeCost + " gold";
     if(lives <= 0){
