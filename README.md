@@ -244,7 +244,7 @@
           </tr>
           <tr>
             <td>moveOnPath</td>
-            <td>returns the coordinates of the enmies based on where they are on the map</td>
+            <td>returns the coordinates of the enemies based on where they are on the map</td>
           </tr>
           <tr>
             <td>endWaveCheck</td>
