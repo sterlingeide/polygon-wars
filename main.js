@@ -119,7 +119,6 @@ newGame.addEventListener('click', function(e){
 });
 
 waveStart.addEventListener('click', function(e){
-    console.log('wave start');
     if (gameRunning === false){
         gameRunning = true;
         waveCount += 1;
@@ -134,11 +133,9 @@ waveStart.addEventListener('click', function(e){
 });
 
 game.addEventListener('click', function(e){
-    console.log('clicked map');
     var rect = game.getBoundingClientRect()
     var x = event.clientX - rect.left
     var y = event.clientY - rect.top
-    console.log("x: " + x + "y: " + y);
     x = x * .93;
     y = y * .92;
     
@@ -463,7 +460,6 @@ function projectileMovement(){
 }
 
 function fullReset(){
-    console.log('Game Started');
     enemyReset();
     gameRunning = false; 
     towers.length = 0;
