@@ -40,9 +40,13 @@ class enemy {
         this.invulTime = 0;
 
         this.render = function() {
+            if(this.invulTime > 0){
+                ctx.globalAlpha = 0.2;
+            }
             ctx.fillStyle = this.color;
             ctx.arc(this.x, this.y, this.radius, 2 *Math.PI, false);
             ctx.fill();
+            ctx.globalAlpha = 1.0;
         }
     }
 }
@@ -127,9 +131,7 @@ newGame.addEventListener('click', function(e){
 //increases speed to raise difficulty
 waveStart.addEventListener('click', function(e){
     if (gameRunning === false){
-        gameRunning = true;
-        
-        
+        gameRunning = true;    
     }
 
 });
@@ -150,7 +152,7 @@ game.addEventListener('click', function(e){
     }else if(towerSelect === 2 && positionCheck(x,y) && goldAmount >= towerTwoCost){
         goldAmount -= towerTwoCost;
         towerTwoCost = towerTwoCost*2;
-        towers.push(new tower(x, y, '#00008B', 60, 2));
+        towers.push(new tower(x, y, '#00008B', 50, 2));
     }else if(towerSelect === 3 && positionCheck(x,y) && goldAmount >= towerThreeCost){
         goldAmount -= towerThreeCost;
         towerThreeCost = towerThreeCost*2;
@@ -247,6 +249,7 @@ function gameLoop(){
     //checks if the wave is over yet and runs necessary functions if it is
     if(endWaveCheck() === true){
         gameRunning = false;
+        goldAmount += (waveCount * 2);
         waveCount += 1;
         if((waveCount) % 3 === 0){
             nEnemies = waveCount; 
@@ -302,7 +305,7 @@ function wave(waveN){
             enemies[i].y = coords[1];
         }
 
-        if(enemies[i].invulTime === 0){
+        if(enemies[i].invulTime <= 0){
         //iterating through projectiles
             for(let n = 0; n < projectiles.length; n++){
                 //checking if projectile has collided with an enemy
@@ -314,7 +317,7 @@ function wave(waveN){
                             enemies[i].y = 165;
                         }else if(enemies[i].color === 'blue'){
                             enemies[i].color = 'red';
-                            enemies[i].invulTime = 30;
+                            enemies[i].invulTime = Math.round((-0.77 * enemySpeed) + 16.54);
                         }
                         goldAmount += 1;
                     }
@@ -327,7 +330,7 @@ function wave(waveN){
                                 enemies[i].y = 165;
                             }else if(enemies[i].color === 'blue'){
                                 enemies[i].color = 'red';
-                                enemies[i].invulTime = 30;
+                                enemies[i].invulTime = Math.round((-0.77*enemySpeed) + 16.54);
                             }
                             goldAmount += 1;
                         }
@@ -339,7 +342,7 @@ function wave(waveN){
                                 enemies[i].y = 165;
                             }else if(enemies[i].color === 'blue'){
                                 enemies[i].color = 'red';
-                                enemies[i].invulTime = 30;
+                                enemies[i].invulTime = Math.round((-0.77 * enemySpeed) + 16.54);
                             }
                             goldAmount += 1;
                         }
@@ -352,7 +355,7 @@ function wave(waveN){
                             enemies[i].y = 165;
                         }else if(enemies[i].color === 'blue'){
                             enemies[i].color = 'red';
-                            enemies[i].invulTime = 30;
+                            enemies[i].invulTime = Math.round((-0.77 * enemySpeed) + 16.54);
                         }
                         goldAmount += 1;
                     }
@@ -483,7 +486,7 @@ function createShot(i){
         if(towers[i].towerClass === 1){
             towers[i].cooldown = 20;
         }else if(towers[i].towerClass === 2){
-            towers[i].cooldown = 60;
+            towers[i].cooldown = 50;
         }else{
             towers[i].cooldown = 75;
         }
