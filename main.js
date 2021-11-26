@@ -14,9 +14,9 @@ let lifeCount = document.querySelector('#lives');
 let instructions = document.querySelector('.start');
 let gameRunning = false;
 let xStart = 175;
-let yStart = 420;
+let yStart = 450;
 let lives = 20;
-let nEnemies = 5;
+let nEnemies = 0;
 let towerSelect = 0;
 let goldAmount = 5;
 let waveCount = 0;
@@ -31,12 +31,13 @@ game.setAttribute('width', getComputedStyle(game)["width"]);
 
 //the class I use to model each enemy circle
 class enemy {
-    constructor(x ,y){
+    constructor(x, y, color){
         this.x = x;
         this.y = y;
-        this.color = 'red';
+        this.color = color;
         this.radius = 10;
         this.alive = true;
+        this.invulTime = 0;
 
         this.render = function() {
             ctx.fillStyle = this.color;
@@ -127,13 +128,8 @@ newGame.addEventListener('click', function(e){
 waveStart.addEventListener('click', function(e){
     if (gameRunning === false){
         gameRunning = true;
-        waveCount += 1;
-        nEnemies = (waveCount + 1) * 5;
-        if (enemySpeed < 15){
-            enemySpeed += 1;
-        }else{
-            enemySpeed = 15;
-        }
+        
+        
     }
 
 });
@@ -198,7 +194,6 @@ towerThree.addEventListener('click', function(e) {
     towerTwo.style.border = "";
 });
 
-
 function mapStartUp(){
     //the road
     ctx.fillStyle = 'tan';
@@ -252,6 +247,17 @@ function gameLoop(){
     //checks if the wave is over yet and runs necessary functions if it is
     if(endWaveCheck() === true){
         gameRunning = false;
+        waveCount += 1;
+        if((waveCount) % 3 === 0){
+            nEnemies = waveCount; 
+        }else{
+            nEnemies = (waveCount) * 5;
+        }
+        if (enemySpeed < 15){
+            enemySpeed += 1;
+        }else{
+            enemySpeed = 15;
+        }
         createEnemies((nEnemies));
         enemyReset();
         projectiles.length = 0;
@@ -280,7 +286,7 @@ function gameLoop(){
 
 function wave(waveN){
     //iterating through each enemy
-    for (let i = 0; i < (5 * waveN); i++){
+    for (let i = 0; i < nEnemies ; i++){
         //moving the enemy if the previous enemy is far enough away
         if( i === 0 ){
             let coords  = moveOnPath(enemies[i].x, enemies[i].y);
@@ -295,45 +301,74 @@ function wave(waveN){
             enemies[i].x = coords[0];
             enemies[i].y = coords[1];
         }
+
+        if(enemies[i].invulTime === 0){
         //iterating through projectiles
-        for(let n = 0; n < projectiles.length; n++){
-            //checking if projectile has collided with an enemy
-            if(projectiles[n].shotClass === 1){
-                if( (projectiles[n].x < (enemies[i].x + 14)) && (projectiles[n].x > (enemies[i].x - 14)) && (projectiles[n].y < (enemies[i].y + 14)) && (projectiles[n].y > (enemies[i].y - 14)) ){
-                    enemies[i].alive = false;
-                    enemies[i].x = 830;
-                    enemies[i].y = 165;
-                    goldAmount += 1;
-                }
-            }else if(projectiles[n].shotClass === 2){
-                if(projectiles[n].dy === 0){
-                    if( (projectiles[n].x < (enemies[i].x + 9)) && (projectiles[n].x > (enemies[i].x - 69)) && (projectiles[n].y < (enemies[i].y + 9)) && (projectiles[n].y > (enemies[i].y - 24))) {
-                        enemies[i].alive = false;
-                        enemies[i].x = 830;
-                        enemies[i].y = 165;
+            for(let n = 0; n < projectiles.length; n++){
+                //checking if projectile has collided with an enemy
+                if(projectiles[n].shotClass === 1){
+                    if( (projectiles[n].x < (enemies[i].x + 14)) && (projectiles[n].x > (enemies[i].x - 14)) && (projectiles[n].y < (enemies[i].y + 14)) && (projectiles[n].y > (enemies[i].y - 14)) ){
+                        if(enemies[i].color === 'red'){
+                            enemies[i].alive = false;
+                            enemies[i].x = 830;
+                            enemies[i].y = 165;
+                        }else if(enemies[i].color === 'blue'){
+                            enemies[i].color = 'red';
+                            enemies[i].invulTime = 30;
+                        }
                         goldAmount += 1;
                     }
-                }else{
-                    if((projectiles[n].x < (enemies[i].x + 9)) && (projectiles[n].x > (enemies[i].x - 24)) && (projectiles[n].y < (enemies[i].y + 9)) && (projectiles[n].y > (enemies[i].y - 69))){
-                        enemies[i].alive = false;
-                        enemies[i].x = 830;
-                        enemies[i].y = 165;
+                }else if(projectiles[n].shotClass === 2){
+                    if(projectiles[n].dy === 0){
+                        if( (projectiles[n].x < (enemies[i].x + 9)) && (projectiles[n].x > (enemies[i].x - 69)) && (projectiles[n].y < (enemies[i].y + 9)) && (projectiles[n].y > (enemies[i].y - 24))) {
+                            if(enemies[i].color === 'red'){
+                                enemies[i].alive = false;
+                                enemies[i].x = 830;
+                                enemies[i].y = 165;
+                            }else if(enemies[i].color === 'blue'){
+                                enemies[i].color = 'red';
+                                enemies[i].invulTime = 30;
+                            }
+                            goldAmount += 1;
+                        }
+                    }else{
+                        if((projectiles[n].x < (enemies[i].x + 9)) && (projectiles[n].x > (enemies[i].x - 24)) && (projectiles[n].y < (enemies[i].y + 9)) && (projectiles[n].y > (enemies[i].y - 69))){
+                            if(enemies[i].color === 'red'){
+                                enemies[i].alive = false;
+                                enemies[i].x = 830;
+                                enemies[i].y = 165;
+                            }else if(enemies[i].color === 'blue'){
+                                enemies[i].color = 'red';
+                                enemies[i].invulTime = 30;
+                            }
+                            goldAmount += 1;
+                        }
+                    }
+                }else if(projectiles[n].shotClass === 3){
+                    if((projectiles[n].x < (enemies[i].x + 29)) && (projectiles[n].x > (enemies[i].x - 29)) && (projectiles[n].y < (enemies[i].y + 29)) && (projectiles[n].y > (enemies[i].y - 29))){
+                        if(enemies[i].color === 'red'){
+                            enemies[i].alive = false;
+                            enemies[i].x = 830;
+                            enemies[i].y = 165;
+                        }else if(enemies[i].color === 'blue'){
+                            enemies[i].color = 'red';
+                            enemies[i].invulTime = 30;
+                        }
                         goldAmount += 1;
                     }
-                }
-            }else if(projectiles[n].shotClass === 3){
-                if((projectiles[n].x < (enemies[i].x + 29)) && (projectiles[n].x > (enemies[i].x - 29)) && (projectiles[n].y < (enemies[i].y + 29)) && (projectiles[n].y > (enemies[i].y - 29))){
-                    enemies[i].alive = false;
-                    enemies[i].x = 830;
-                    enemies[i].y = 165;
-                    goldAmount += 1;
                 }
             }
+        }else{
+            enemies[i].invulTime -= 1;
         }
         //checking if enemies made it through the map
         if(enemies[i].x >= 815 && enemies[i].y >= 140 && enemies[i].y <= 190){
             if(enemies[i].alive === true){
-                lives -= 1;
+                if(enemies[i].color === 'red'){
+                    lives -= 1;
+                }else if(enemies[i].color === 'blue'){
+                    lives -= 2;
+                }
                 enemies[i].alive = false;
             }
             
@@ -374,7 +409,12 @@ function enemyReset(){
     for(let i = 0; i < enemies.length; i++){
         enemies[i].x = xStart;
         enemies[i].y = yStart;
-        enemies[i].alive = true;
+        enemies[i].alive = true;  
+        if((waveCount) % 3 === 0){
+            enemies[i].color = 'blue';
+        }else{
+            enemies[i].color = 'red';
+        }
     }
 }
 
@@ -494,5 +534,5 @@ function fullReset(){
     towerTwoCost = 7;
     towerThreeCost = 10;
     enemySpeed = 2;
-    nEnemies = 5;
+    nEnemies = 0;
 }
